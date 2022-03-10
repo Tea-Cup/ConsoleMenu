@@ -111,7 +111,7 @@
 					Console.WriteLine(Title);
 
 				bool hasEnabled = false;
-				int width = this.Max(x => x.Text.Length);
+				int width = this.Max(x => x.Text.Length + (x.IsEnabled ? 0 : -4));
 				for (int i = 0; i < Count; i++) {
 					if (base[i].IsEnabled) hasEnabled = true;
 					PrintMenuItem(base[i], width, i == sel);
@@ -139,6 +139,7 @@
 			if (clear) {
 				Position = (0, top);
 				string line = new(' ', Console.BufferWidth);
+				if (!string.IsNullOrEmpty(Title)) Console.WriteLine(line);
 				for (int i = 0; i < Count; ++i) Console.WriteLine(line);
 				Position = (0, top);
 			}
