@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace ConsoleMenu {
+﻿namespace ConsoleMenu {
 	public class Menu : List<MenuItem> {
 		private static (ConsoleColor back, ConsoleColor fore) CurrentColor {
 			get => (Console.BackgroundColor, Console.ForegroundColor);
@@ -21,7 +19,7 @@ namespace ConsoleMenu {
 				if (id != 0) {
 					value.ID = id;
 				}
-				if(!Set(id, value)) Add(value);
+				if (!Set(id, value)) Add(value);
 			}
 			get => this.FirstOrDefault(x => x.ID == id) ?? throw new IndexOutOfRangeException();
 		}
@@ -49,7 +47,7 @@ namespace ConsoleMenu {
 		}
 		public bool Set(int id, MenuItem item) {
 			if (id == 0) return false;
-			for(int i = 0; i < Count; ++i) {
+			for (int i = 0; i < Count; ++i) {
 				if (base[i].ID == id) {
 					base[i] = item;
 					item.ID = id;
@@ -78,13 +76,13 @@ namespace ConsoleMenu {
 				bool hasEnabled = false;
 				int width = this.Max(x => x.Text.Length);
 				for (int i = 0; i < Count; i++) {
-					if(base[i].IsEnabled) hasEnabled = true;
+					if (base[i].IsEnabled) hasEnabled = true;
 					PrintMenuItem(base[i], width, i == sel);
 				}
 				if (!hasEnabled) return 0;
 
 				ConsoleKey key = Console.ReadKey(true).Key;
-				if(key == ConsoleKey.UpArrow) {
+				if (key == ConsoleKey.UpArrow) {
 					do {
 						if (--sel < 0) sel = Count - 1;
 					} while (!base[sel].IsEnabled);
@@ -95,7 +93,7 @@ namespace ConsoleMenu {
 					} while (!base[sel].IsEnabled);
 				}
 				if (key == ConsoleKey.Enter) {
-					if(base[sel] is CheckMenuItem cb) cb.IsChecked = !cb.IsChecked;
+					if (base[sel].IsChecked is not null) base[sel].IsChecked = !base[sel].IsChecked;
 					else break;
 				}
 			}
@@ -112,7 +110,7 @@ namespace ConsoleMenu {
 		}
 
 		private void PrintMenuItem(MenuItem item, int width, bool sel) {
-			if (item is CheckMenuItem cb) PrintCheckMenuItem(cb, width, sel);
+			if (item.IsChecked is not null) PrintCheckMenuItem(item, width, sel);
 			else PrintStringMenuItem(item, width, sel);
 		}
 		private void PrintStringMenuItem(MenuItem item, int width, bool sel) {
@@ -121,11 +119,11 @@ namespace ConsoleMenu {
 			Console.Write(item.Text.PadRight(width));
 			Console.WriteLine("  ");
 		}
-		private void PrintCheckMenuItem(CheckMenuItem item, int width, bool sel) {
+		private void PrintCheckMenuItem(MenuItem item, int width, bool sel) {
 			CurrentColor = sel ? RevsColor : MainColor;
 
 			Console.Write('[');
-			if (item.IsChecked) Console.Write('X');
+			if (item.IsChecked == true) Console.Write('X');
 			else Console.Write(' ');
 			Console.Write("] ");
 			Console.Write(item.Text.PadRight(width));

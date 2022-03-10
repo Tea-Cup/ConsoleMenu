@@ -10,9 +10,9 @@
 				[3] = "Test"
 			};
 			int selected = menu.Show();
-			bool? bar = (menu[2] as CheckMenuItem)?.IsChecked;
+			bool bar = menu[2].IsChecked == true;
 			Console.WriteLine($"Selected = [{selected}] {menu[selected].Text}");
-			Console.WriteLine($"Bar = {(bar == true ? "true" : bar == false ? "false" : "null")}");
+			Console.WriteLine($"Bar = {(bar ? "true" : "false")}");
 		}
 	}
 }
