@@ -64,7 +64,9 @@ namespace ConsoleMenu {
 			if (Console.CursorLeft > 0) Console.WriteLine();
 			int top = Console.CursorTop;
 			int sel = 0;
+#pragma warning disable CA1416 // Validate platform compatibility
 			var old = (CurrentColor, Console.CursorVisible);
+#pragma warning restore CA1416 // Validate platform compatibility
 			Console.CursorVisible = false;
 
 			while (true) {
