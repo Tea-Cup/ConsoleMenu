@@ -80,7 +80,7 @@ Menu menu = new("Test Menu") {
 ```
 ![Console with changed colors](https://i.imgur.com/gn5gIJ7.png)
 
-Selected item will have its Background and Foreground colors inverted:
+Selected item will have its Background and Foreground colors inverted:  
 ![Selection has colors inverted](https://i.imgur.com/vdxHOXP.gif)
 
 ## Documentation
