@@ -48,3 +48,41 @@ Checkbox items can be accessed with their ID too:
 bool bar = menu[2].IsChecked == true;
 Console.WriteLine($"Bar = {(bar ? "true" : "false")}");
 ```
+
+## Colors
+Menu inherits current console color at the time of it's construction:
+```cs
+Console.BackgroundColor = ConsoleColor.White;
+Console.ForegroundColor = ConsoleColor.Black;
+Console.WriteLine("test test");
+Menu menu = new("Test Menu") {
+	[1] = "Foo",
+	[2] = ("Bar", false),
+	[0] = "(Baz)",
+	[0] = "(Xyz)",
+	[3] = "Test"
+};
+```
+![Console with changed colors](https://i.imgur.com/9oOVxGk.png)
+
+But you can specify colors yourself too:
+```cs
+Console.WriteLine("test test");
+Menu menu = new("Test Menu") {
+	BackColor = ConsoleColor.White,
+	ForeColor = ConsoleColor.Black,
+	[1] = "Foo",
+	[2] = ("Bar", false),
+	[0] = "(Baz)",
+	[0] = "(Xyz)",
+	[3] = "Test"
+};
+```
+![Console with changed colors](https://i.imgur.com/gn5gIJ7.png)
+
+Selected item will have its Background and Foreground colors inverted:
+![Selection has colors inverted](https://i.imgur.com/vdxHOXP.gif)
+
+## Documentation
+Full documentation included in source code using standard XML-docs.  
+There really isn't much going on. You will only need a `ConsoleMenu.Menu` class.
