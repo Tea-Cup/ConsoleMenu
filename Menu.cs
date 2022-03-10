@@ -101,6 +101,13 @@ namespace ConsoleMenu {
 			}
 
 			(CurrentColor, Console.CursorVisible) = old;
+			if (clear) {
+				Position = (0, top);
+				string line = new(' ', Console.BufferWidth);
+				for (int i = 0; i < Count; ++i) Console.WriteLine(line);
+				Position = (0, top);
+			}
+
 			return base[sel].ID;
 		}
 
