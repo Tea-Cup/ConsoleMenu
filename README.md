@@ -86,3 +86,10 @@ Selected item will have its Background and Foreground colors inverted:
 ## Documentation
 Full documentation included in source code using standard XML-docs.  
 There really isn't much going on. You will only need a `ConsoleMenu.Menu` class.
+
+# Installation
+Download a `.nupkg` file from [Releases](https://github.com/Tea-Cup/ConsoleMenu/releases) and install it with a NuGet console:
+```
+Install-Package xxx\ConsoleMenu.x.x.x.nupkg
+```
+Or rip `.dll` from inside the `.nupkg` file manually. NuGet packages can be opened as a ZIP archive. DLL file and its XML-doc can be found in `lib` directory there.
