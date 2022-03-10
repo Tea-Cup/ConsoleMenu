@@ -18,6 +18,8 @@
 			set {
 				if (id != 0) {
 					value.ID = id;
+				} else {
+					value.IsEnabled = false;
 				}
 				if (!Set(id, value)) Add(value);
 			}
