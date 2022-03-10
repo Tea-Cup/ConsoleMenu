@@ -35,5 +35,7 @@
 		public static bool operator !=(MenuItem? left, MenuItem? right) {
 			return !(left == right);
 		}
+		public static implicit operator MenuItem(string text) => new(text);
+		public static implicit operator MenuItem((string, bool) value) => new CheckMenuItem(value.Item1) { IsChecked = value.Item2 };
 	}
 }

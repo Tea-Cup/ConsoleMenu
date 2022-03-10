@@ -16,12 +16,14 @@ namespace ConsoleMenu {
 		private (ConsoleColor back, ConsoleColor fore) MainColor => (BackColor, ForeColor);
 		private (ConsoleColor back, ConsoleColor fore) RevsColor => (ForeColor, BackColor);
 
-		public new string this[int id] {
+		public new MenuItem this[int id] {
 			set {
-				if (id == 0) Add(value, false);
-				else if (!Set(id, value)) Add(id, value);
+				if (id != 0) {
+					value.ID = id;
+				}
+				if(!Set(id, value)) Add(value);
 			}
-			get => this.FirstOrDefault(x=>x.ID == id)?.Text ?? throw new IndexOutOfRangeException();
+			get => this.FirstOrDefault(x => x.ID == id) ?? throw new IndexOutOfRangeException();
 		}
 
 		public Menu() {
@@ -45,12 +47,12 @@ namespace ConsoleMenu {
 			Add(item);
 			return item.ID;
 		}
-		public bool Set(int id, string text, bool? enabled = null) {
+		public bool Set(int id, MenuItem item) {
 			if (id == 0) return false;
-			foreach(MenuItem item in this) {
-				if(item.ID == id) {
-					item.Text = text;
-					if(enabled.HasValue) item.IsEnabled = enabled.Value;
+			for(int i = 0; i < Count; ++i) {
+				if (base[i].ID == id) {
+					base[i] = item;
+					item.ID = id;
 					return true;
 				}
 			}
@@ -74,13 +76,8 @@ namespace ConsoleMenu {
 				bool hasEnabled = false;
 				int width = this.Max(x => x.Text.Length);
 				for (int i = 0; i < Count; i++) {
-					CurrentColor = i == sel ? RevsColor : MainColor;
-					if (base[i].IsEnabled) {
-						hasEnabled = true;
-						Console.Write("  ");
-					}
-					Console.Write(base[i].Text.PadRight(width));
-					Console.WriteLine("  ");
+					if(base[i].IsEnabled) hasEnabled = true;
+					PrintMenuItem(base[i], width, i == sel);
 				}
 				if (!hasEnabled) return 0;
 
@@ -96,12 +93,34 @@ namespace ConsoleMenu {
 					} while (!base[sel].IsEnabled);
 				}
 				if (key == ConsoleKey.Enter) {
-					break;
+					if(base[sel] is CheckMenuItem cb) cb.IsChecked = !cb.IsChecked;
+					else break;
 				}
 			}
 
 			(CurrentColor, Console.CursorVisible) = old;
 			return base[sel].ID;
+		}
+
+		private void PrintMenuItem(MenuItem item, int width, bool sel) {
+			if (item is CheckMenuItem cb) PrintCheckMenuItem(cb, width, sel);
+			else PrintStringMenuItem(item, width, sel);
+		}
+		private void PrintStringMenuItem(MenuItem item, int width, bool sel) {
+			CurrentColor = sel ? RevsColor : MainColor;
+			if (item.IsEnabled) Console.Write("    ");
+			Console.Write(item.Text.PadRight(width));
+			Console.WriteLine("  ");
+		}
+		private void PrintCheckMenuItem(CheckMenuItem item, int width, bool sel) {
+			CurrentColor = sel ? RevsColor : MainColor;
+
+			Console.Write('[');
+			if (item.IsChecked) Console.Write('X');
+			else Console.Write(' ');
+			Console.Write("] ");
+			Console.Write(item.Text.PadRight(width));
+			Console.WriteLine("  ");
 		}
 	}
 }
